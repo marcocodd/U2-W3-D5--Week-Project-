@@ -14,7 +14,7 @@ const productCardGenerator = function (arrayProducts) {
   const col = document.createElement("div");
   col.classList.add("col", "col-6", "col-md-4", "col-lg-3");
   col.innerHTML = `
-    <div class="card h-100">
+    <div class="card h-100 shadow">
   <img src=${product.imageUrl} class="card-img-top border border-black" alt="...">
   <div class="card-body">
   <h4 class="card-title">${product.brand}</h4>
