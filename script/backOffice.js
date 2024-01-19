@@ -26,28 +26,51 @@ if (addressId) {
  const deleteButton = document.createElement("button");
  deleteButton.type = "button";
  deleteButton.innerText = "Delete";
- deleteButton.id='delete-button'
- deleteButton.classList.add('btn', 'btn-primary')
+ deleteButton.id = "delete-button";
+ deleteButton.classList.add("btn", "btn-primary");
  buttonsDiv.appendChild(deleteButton);
- const addProductPageButton = document.createElement('button')
- addProductPageButton.type='button'
- addProductPageButton.innerText='Back to Add products Page'
- addProductPageButton.classList.add('btn', 'btn-primary')
- buttonsDiv.appendChild(addProductPageButton)
+ const addProductPageButton = document.createElement("button");
+ addProductPageButton.type = "button";
+ addProductPageButton.innerText = "Back to Add products Page";
+ addProductPageButton.classList.add("btn", "btn-primary");
+ buttonsDiv.appendChild(addProductPageButton);
 
-addProductPageButton.addEventListener('click', function(){
-    window.location.href = './backOffice.html';
-})
+ // aggiunto la possibilità di cancellare il prodotto
+ deleteButton.addEventListener("click", function () {
+  if (addressId) {
+   fetch(myUrl + addressId, {
+    method: "DELETE",
+    headers: {
+     Authorization: apiKey,
+    },
+   })
+    .then((response) => {
+     if (response.ok) {
+      alert("Product deleted");
+      nameInput.value = "";
+      descrInput.value = "";
+      priceInput.value = "";
+      imageInput.value = "";
+      brandInput.value = "";
+     } else {
+      alert("Something went wrong");
+     }
+    })
+    .catch((err) => {
+     console.log(err);
+    });
+  }
+ });
 
- 
+ addProductPageButton.addEventListener("click", function () {
+  window.location.href = "./backOffice.html";
+ });
 
  fetch(myUrl + addressId, {
-
-    headers: {
-      'Authorization': apiKey
-    }
-  })
-
+  headers: {
+   Authorization: apiKey,
+  },
+ })
   .then((response) => {
    if (response.ok) {
     return response.json();
@@ -69,76 +92,49 @@ addProductPageButton.addEventListener('click', function(){
 
 // prendo riferimento al bottone creato nel nuovo form di modifica
 
-const deleteButton = document.getElementById('delete-button')
-
-// aggiunto la possibilità di cancellare il prodotto
-deleteButton.addEventListener("click", function () {
- if (addressId) {
-  fetch(myUrl + addressId, {
-   method: "DELETE",
-   headers: {
-    Authorization: apiKey,
-   },
-  })
-   .then((response) => {
-    if (response.ok) {
-     alert("Product deleted");
-    } else {
-     alert("Something went wrong");
-    }
-   })
-   .catch((err) => {
-    console.log(err);
-   });
- }
-});
-
 //aggiungo possibilità modifica prodotto al bottone
 
-mainButton.addEventListener('click', function(){
-
-})
-
+mainButton.addEventListener("click", function () {});
 
 // codice del submit del form
 
-backForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const productCard = {
-      name: nameInput.value,
-      description: descrInput.value,
-      brand: brandInput.value,
-      imageUrl: imageInput.value,
-      price: priceInput.value,
-    };
-  
-    let newUrl
-  let methodToUse
+backForm.addEventListener("submit", function (e) {
+ e.preventDefault();
+ const productCard = {
+  name: nameInput.value,
+  description: descrInput.value,
+  brand: brandInput.value,
+  imageUrl: imageInput.value,
+  price: priceInput.value,
+ };
 
-  if (addressId) {
-    methodToUse = 'PUT'
-    newUrl = myUrl + '/' + addressId
-  } else {
-    methodToUse = 'POST'
-    URLToUse = myUrl
-  }
-  
-    fetch(newUrl, {
-      method: methodToUse,
-      body: JSON.stringify(productCard),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': apiKey
-      }
-    })
-    .then((response) => {
-      if (response.ok) {
-        alert(addressId ? 'Product updated' : 'Product added');
-      } else {
-        alert('Something went wrong');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+ let newUrl;
+ let methodToUse;
+
+ if (addressId) {
+  methodToUse = "PUT";
+  newUrl = myUrl + "/" + addressId;
+ } else {
+  methodToUse = "POST";
+  newUrl = myUrl;
+ }
+
+ fetch(newUrl, {
+  method: methodToUse,
+  body: JSON.stringify(productCard),
+  headers: {
+   "Content-Type": "application/json",
+   Authorization: apiKey,
+  },
+ })
+  .then((response) => {
+   if (response.ok) {
+    alert(addressId ? "Product updated" : "Product added");
+   } else {
+    alert("Something went wrong");
+   }
+  })
+  .catch((err) => {
+   console.log(err);
   });
+});

@@ -12,7 +12,7 @@ const productCardGenerator = function(data){
         col.classList.add('col-6')
         col.innerHTML = `
         <div class="card ">
-      <img src=${data.imageUrl}class="card-img-top img-fluid" width=300 alt="...">
+      <img src=${data.imageUrl}class="card-img-top img-fluid"alt="...">
       <div class="card-body">
       <h4 class="card-title">${data.brand}</h4>
         <h5 class="card-title">${data.name}</h5>
@@ -23,7 +23,7 @@ const productCardGenerator = function(data){
         
       </div>
     </div>
-        `
+        `;
         row.appendChild(col)
     };
     

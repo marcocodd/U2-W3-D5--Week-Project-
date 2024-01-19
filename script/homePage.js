@@ -15,7 +15,7 @@ const productCardGenerator = function(arrayProducts){
 
 arrayProducts.forEach(product => {
    const col = document.createElement('div') 
-    col.classList.add('col', 'col-6', 'col-md-4', 'col-xl-3')
+    col.classList.add("col", "col-6", "col-md-4", "col-xl-3", "d-flex");
     col.innerHTML = `
     <div class="card h-100">
   <img src=${product.imageUrl} class="card-img-top img-fluid" alt="...">
